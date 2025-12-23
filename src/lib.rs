@@ -1,14 +1,18 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+use clap::{Arg, Command};
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+pub fn cli() -> Command {
+    subcommand("subcommand1")
+        .about("Create a new cargo package in an existing directory")
+        .arg(
+            Arg::new("path")
+                .value_name("PATH")
+                .action(ArgAction::Set)
+                .default_value("."),
+        )
+        .arg_new_opts()
+        .arg_registry("Registry to use")
+        .arg_silent_suggestion()
+        .after_help(color_print::cstr!(
+            "Run `<bright-cyan,bold>cargo help init</>` for more detailed information.\n"
+        ))
 }
