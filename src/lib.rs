@@ -1,18 +1,17 @@
 use clap::{Arg, Command};
+use std::error::Error;
 
 pub fn cli() -> Command {
-    subcommand("subcommand1")
-        .about("Create a new cargo package in an existing directory")
-        .arg(
-            Arg::new("path")
-                .value_name("PATH")
-                .action(ArgAction::Set)
-                .default_value("."),
-        )
-        .arg_new_opts()
-        .arg_registry("Registry to use")
-        .arg_silent_suggestion()
-        .after_help(color_print::cstr!(
-            "Run `<bright-cyan,bold>cargo help init</>` for more detailed information.\n"
-        ))
+    Command::new("subcommand1")
+        .about("Subcommand 1")
+        .arg(Arg::new("path").value_name("PATH").default_value("."))
+        .after_help("After subcommand1's help")
+}
+
+pub fn execute() -> Result<(), Box<dyn Error>> {
+    let command = cli();
+    let matches = command.get_matches();
+    println!("In Subcommand 1");
+    dbg!(matches);
+    Ok(())
 }
